@@ -13,6 +13,11 @@ public class Main {
     
     public static void main(String[] args) throws Exception {
         
+        // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
+        if (System.getenv("PORT") != null) {
+            Spark.port(Integer.valueOf(System.getenv("PORT")));
+        }
+        
         Database database = new Database("jdbc:sqlite:reseptiarkisto.db");
         
         AinesosaDao ainesosat = new AinesosaDao(database);
@@ -106,18 +111,7 @@ public class Main {
             
             return "";
         });
-        
-        /*Arvostelujen lisaaminen ja listaaminen         
-        Spark.get("/arvostelut/:id", (req, res) -> {
-            HashMap map = new HashMap<>();
-            Integer annosId = Integer.parseInt(req.params(":id"));
-            map.put("annos", annokset.findOne(annosId));
-            map.put("ainesosat", ainesosat.findAnnosAinesosat(annosId));
-            map.put("annosainesosat", annosainesosat.findAllWithAnnosId(annosId));
-            
-            return new ModelAndView(map, "annos");
-        }, new ThymeleafTemplateEngine());*/
-        
+
         Spark.post("/arvostelut", (req, res) -> {
             Integer annosID = Integer.parseInt(req.queryParams("id"));
             String nimi = req.queryParams("nimi");
