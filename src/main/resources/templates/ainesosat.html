@@ -1,0 +1,68 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Ainesosat</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+
+            body {font-size:20px; color:black; font-family:arial; text-align:center; text-shadow: 1px 1px 2px #FFFFFF; background-color: #40638c; background: url("https://c.pxhere.com/photos/92/23/abstract_antique_backdrop_background_banner_board_brown_building-1175778.jpg!d") fixed 50% / cover;}
+            h1 {font-size:35px; margin: 30px 0 50px 0;}
+            a {font-size:20px;}
+            button {font-size:20px;}
+            ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            }
+            li a {
+                display: block;
+                text-align: center;
+                padding: 5px;
+                text-decoration: none;
+            }
+            li a:hover {
+                text-shadow: 10px 10px 20px #000000;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+        <div >
+            <a href="./">Takaisin</a>
+
+            <h1>Luettelo ainesosista</h1>
+
+            <ul>
+                <li th:each="ainesosa: ${ainesosat}">
+                    <a th:href="@{~/ainesosat/{id}(id=${ainesosa.id})}">
+                        <span th:text="${ainesosa.id}">1</span>
+                        <span th:text="${ainesosa.nimi}">esimerkki</span>
+                    </a>    
+                </li>
+            </ul>
+
+
+            <h2>Lisää uusi ainesosa</h2>
+
+            <form name="lisaaAinesosa" method="POST" action="/ainesosat" onsubmit="return varmistaForm()">
+                <input type="text" name="nimi"/><br/>
+                <input type="submit" value="Lisää" onclick="refresh()"/>
+            </form>
+        </div>
+        
+        <script>
+            function varmistaForm() {
+                var x = document.forms["lisaaAinesosa"]["nimi"].value;
+                if (x == "") {
+                    alert("Ainesosalla tulee olla nimi");
+                    return false;
+                } else {
+                    window.top.location.reload();
+                }
+            } 
+        </script>
+    </body>
+</html>

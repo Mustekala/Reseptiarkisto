@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Annos</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+
+            body {font-size:20px; color:black; font-family:arial; text-align:center; background-color: #40638c; background: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png") fixed 50% / cover;}
+            h1 {font-size:40px; margin: 30px 0 50px 0; text-shadow: 2px 2px 4px #FFFFFF;}
+            p {width:320px; text-align:center; margin-left:auto;margin-right:auto; margin-top: 30px; text-shadow: 1px 1px 2px #FFFFFF;}
+            a {font-size:30px; text-shadow: 2px 2px 2px #FFFFFF;}
+            a:link {color:blue;}
+            a:hover {color: #34536A;}
+            button {font-size:20px;}          
+            div {width:600px; height:100%; text-align:center; margin-left:auto;margin-right:auto; background:white;}
+            li {text-align:justify; margin-left:10%;margin-right:auto;}
+        </style>
+    </head>
+    
+    <body>
+        
+        <a href="../">Takaisin</a>
+        
+        <div>
+            <h1 th:text="${annos.nimi}">Nimi</h1>
+
+            <h2>Ainesosat:</h2>
+
+            <ul>
+                <li th:each="ainesosa : ${ainesosat}">
+                    <span th:text="${ainesosa.nimi}">Ainesosa</span>:<br/>
+                    <span th:text="${ainesosa.maara}">Maara</span>
+                </li>
+                <br><br>
+                <li th:each="annosainesosa : ${annosainesosat}">
+                    <span th:text="${annosainesosa.jarjestys}">1</span>:
+                    <span th:text="${annosainesosa.ohje}">Kommentti</span>
+                    <br>
+                </li> 
+                <br>                           
+            </ul>
+
+            <h2>Kommentit</h2>  
+            <ul>
+                <li th:each="arvostelu : ${arvostelut}">
+                    <span th:text="${arvostelu.nimi}">nimi</span><br/>
+                    <span th:text="${arvostelu.arvosana}">1</span>/5<br/>
+                    <span th:text="${arvostelu.kommentti}">kommentti</span>
+                    <br><br>
+                </li>  
+            </ul>
+            
+            <h2>Lisää uusi kommentti</h2>
+
+            <form name="lisaaKommentti" method="POST" action="/arvostelut">            
+                <input type="hidden" name="id" value="" th:value="${annos.id}" />
+                <p>Nimimerkki</p>
+                <input type="text" name="nimi"/><br/>
+                <p>Arvosana ja kommentti</p>
+                <select name="arvosana">
+                    <option value=0>0</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option>
+                </select>
+                <input type="text" name="kommentti"/><br/>
+                <input type="submit" value="Lisää">
+            </form>
+        </div>
+    </body>
+</html>
+

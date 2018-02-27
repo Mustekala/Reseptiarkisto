@@ -1,0 +1,72 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Annokset</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+
+            body {font-size:20px; color:black; font-family:arial; text-align:center; background: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png") 50% / cover}          
+            h1 {font-size:40px; margin: 30px 0 50px 0; text-shadow: 2px 2px 4px #FFFFFF;}
+            p {width:320px; text-align:center; margin-left:auto;margin-right:auto; margin-top: 5px; margin-bottom: 5px; text-shadow: 1px 1px 2px #FFFFFF;}
+            a {font-size:30px; text-shadow: 2px 2px 2px #FFFFFF;}
+            a:link {color:blue;}
+            a:hover {color: #34536A;}
+            button {font-size:20px;}
+            #lisaaAinesosia {
+
+            }
+            ul#menu li{display:inline; float: left; text-align:center;}
+        </style>
+    </head>
+    
+    <body>
+        
+        <a href="./">Takaisin</a>
+        
+        <h2>Lisää uusi annos</h2>
+
+        <form name="lisaaAnnos" method="POST" action="/annokset" onsubmit="return varmistaForm()">
+            <input type="text" name="nimi"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+        
+        <br>
+        
+        <div id="ainesosat">
+            <iframe src = "/ainesosat" width="500" height="600"></iframe>
+        </div>
+        
+        <div align="center" id="lisaaAinesosia">
+            <h2>Lisää ainesosia annoksiin</h2>
+
+            <ul id="menu">
+                <li th:each="annos: ${annokset}">
+                    <span th:text="${annos.nimi}">annos</span>
+                    <form th:action="@{~/annokset/{id}(id=${annos.id})}" method="post">
+                        <select name="ainesosaId">
+                            <option th:each="ainesosa: ${ainesosat}" th:value="${ainesosa.id}" th:text="${ainesosa.nimi}">
+                                ainesosa
+                            </option>
+                        </select><br/>
+                        <p>Määrä:</p>        
+                        <input type="text" name="maara"/><br/>
+                        <p>Ohje:</p>    
+                        <input type="text" name="ohje"/><br/>
+                        <input id="print-button" type="submit" value="Lisää ainesosa ja ohje"/>  
+                    </form>
+                </li>
+            </ul>  
+        </div>
+        
+        <script>
+            function varmistaForm() {
+                var x = document.forms["lisaaAnnos"]["nimi"].value;
+                if (x == "") {
+                    alert("Annoksella tulee olla nimi");
+                    return false;
+                } 
+            } 
+        </script>
+    </body>
+</html>
